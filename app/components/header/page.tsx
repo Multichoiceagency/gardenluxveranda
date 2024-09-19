@@ -32,7 +32,7 @@ const Header = () => {
 
         {/* Normal Menu Items for Desktop */}
         <nav className="hidden lg:flex space-x-6">
-          <Link href="/" className="text-black hover:text-gray-600">
+          <Link href="/" className="text-white hover:text-white-600">
             Home
           </Link>
           <Link href="/about" className="text-black hover:text-gray-600">
