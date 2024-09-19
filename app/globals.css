@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Root color variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -14,10 +16,15 @@
   }
 }
 
+/* Use the external fonts */
 body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+code {
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 @layer utilities {
