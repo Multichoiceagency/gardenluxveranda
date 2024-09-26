@@ -6,7 +6,7 @@ const GardenTransformationSection = () => {
       {/* Background image placeholder */}
       <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: "url('/api/placeholder/1200/400')"}}></div>
       
-      <div className="relative z-10 container mx-auto px-4 py-8 flex flex-col md:flex-row items-stretch">
+      <div className="relative z-10 container mx-auto px-4 py-8  flex flex-col md:flex-row items-stretch">
         <div className="flex-1 mb-8 md:mb-0 md:mr-8">
           <div className="flex items-center mb-4">
             <span className="text-6xl font-bold mr-4">3.6k+</span>
@@ -17,10 +17,10 @@ const GardenTransformationSection = () => {
           </p>
         </div>
 
-        <div className="bg-[#0A3D2B] text-white p-6 rounded-lg flex-1 flex flex-col justify-between">
+        <div className="bg-[#0A3D2B] text-white p-6 mb-32 rounded-lg flex-1 flex flex-col justify-between ">
           <div>
             <h2 className="text-2xl font-bold mb-4">
-              Ready To Transform Your Outdoor Space?
+              Klaar voor vakantie in eigen tuin?
             </h2>
             
             <div className="flex items-center justify-center mb-6">

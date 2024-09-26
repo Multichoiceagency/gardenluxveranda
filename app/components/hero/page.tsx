@@ -12,7 +12,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-start px-8 lg:px-24">
+    <section className="relative h-svh w-full flex items-center justify-start px-8 lg:px-24">
       {/* Video Background */}
       <video
         autoPlay
@@ -30,8 +30,8 @@ const Hero = () => {
 
       {/* Content */}
       <div
-        className={`relative z-10 text-left text-white max-w-3xl transition-opacity duration-1000 ${
-          textVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+        className={`relative z-10 text-left text-white max-w-3xl mx0-auto transition-opacity duration-1000 ${
+          textVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10 '
         }`}
       >
         {/* Small Title */}
