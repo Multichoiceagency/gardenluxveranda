@@ -1,28 +1,42 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { IoMenuOutline } from 'react-icons/io5'; // Hamburger Icon
-import { FaTimes, FaHome, FaMapMarkerAlt, FaClipboardList, FaChevronDown, FaEnvelope, FaPhoneAlt, FaPercentage } from 'react-icons/fa'; // Icons for Menu Items
-import { FaShop } from 'react-icons/fa6'; // New Fa6 icon import
+import { IoMenuOutline } from 'react-icons/io5';
+import { FaTimes, FaHome, FaMapMarkerAlt, FaClipboardList, FaChevronDown, FaEnvelope, FaPhoneAlt, FaPercentage } from 'react-icons/fa';
+import { FaShop } from 'react-icons/fa6';
 import Link from 'next/link';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [fadeIn, setFadeIn] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    setFadeIn(true);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden'; // Prevent scrolling when the menu is open
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto'; // Enable scrolling when the menu is closed
+      document.body.style.overflow = 'auto';
     }
   }, [isMenuOpen]);
 
-  // Handle clicking outside the menu to close it
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <>
-      <header className="w-full fixed top-0 left-0 z-50 backdrop-blur-lg shadow-md">
+      <header className={`w-full fixed top-0 left-0 z-50 backdrop-blur-lg shadow-md transition-opacity duration-500 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
         <div
           className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center"
           style={{
@@ -30,12 +44,12 @@ const Header = () => {
           }}
         >
           {/* Logo */}
-          <div className="text-2xl font-bold flex items-center">
+          <div className="text-2xl font-bold flex items-center transition-all duration-300">
             <Link href="/">
               <img
-                src="/logo/logo.png" // Same logo path for both desktop and mobile
+                src="/logo/logo.png"
                 alt="Logo"
-                className="h-16 w-auto lg:h-10" // Increase the size of the logo on mobile
+                className={`w-auto transition-all duration-300 ${scrolled ? 'h-12 lg:h-16' : 'h-16 lg:h-20'}`}
               />
             </Link>
           </div>
@@ -53,13 +67,13 @@ const Header = () => {
 
                 {/* Simple Submenu for Desktop (Vertically Stacked) */}
                 {item.submenu && (
-                  <div className="hidden group-hover:block absolute left-0 mt-2 bg-primary text-white shadow-lg rounded-lg p-2 z-50">
+                  <div className="hidden group-hover:block absolute left-0 mt-2 bg-primary text-white shadow-lg rounded-lg p-2 z-50 w-64">
                     <ul className="flex flex-col space-y-1">
                       {item.submenu.map((subItem) => (
                         <li key={subItem.title}>
                           <Link
                             href={subItem.link}
-                            className="block px-4 py-2 hover:bg-primary-dark"
+                            className="block px-4 py-2 hover:bg-primary-dark w-full"
                           >
                             {subItem.title}
                           </Link>
@@ -99,26 +113,22 @@ const Header = () => {
             className={`relative bg-white text-black h-full w-full transition-all duration-700 ease-in-out transform origin-top overflow-y-auto ${isMenuOpen ? 'scale-y-100' : 'scale-y-0'}`}
             onClick={(e) => e.stopPropagation()}
             style={{
-              transformOrigin: 'top', // Set the curtain-like animation starting from the top
+              transformOrigin: 'top',
             }}
           >
-            {/* Close Button */}
-            <div className="absolute top-6 right-6">
+            {/* Close Button and Logo */}
+            <div className="flex justify-between items-center p-6">
+              <img src="/logo/logo.png" alt="Logo" className="h-12 w-auto" />
               <button onClick={() => setIsMenuOpen(false)}>
                 <FaTimes className="text-3xl text-black" />
               </button>
             </div>
 
-            {/* Logo at the top */}
-            <div className="flex justify-center pt-6">
-              <img src="/logo/logo.png" alt="Logo" className="h-24 w-auto" /> {/* Bigger logo on mobile */}
-            </div>
-
             {/* Menu Items */}
-            <div className="flex flex-col justify-start space-y-6 pl-8 pt-12">
-              {menuItems.map((item) => (
-                <div key={item.title} className="w-full pr-8">
-                  <div className="flex items-center justify-between">
+            <div className="flex flex-col justify-center items-center space-y-8 pt-12">
+              {menuItems.map((item, index) => (
+                <div key={item.title} className="w-full px-8 text-center">
+                  <div className="flex items-center justify-center space-x-4">
                     <h5 className="flex items-center space-x-4 text-black text-lg">
                       {item.icon}
                       <span className="font-bold">{item.title}</span>
@@ -137,9 +147,9 @@ const Header = () => {
 
                   {/* Submenu for Mobile */}
                   {activeSubMenu === item.title && item.submenu && (
-                    <ul className="pl-8 pt-2 space-y-2 w-full">
-                      {item.submenu.map((subItem) => (
-                        <li key={subItem.title}>
+                    <ul className="mt-4 space-y-2 w-full">
+                      {item.submenu.map((subItem, subIndex) => (
+                        <li key={subItem.title} className="animate-fadeIn" style={{ animationDelay: `${subIndex * 100}ms` }}>
                           <Link href={subItem.link} className="text-sm block">
                             {subItem.title}
                           </Link>
@@ -151,21 +161,18 @@ const Header = () => {
               ))}
 
               {/* Phone Number and Email */}
-              <div className="flex flex-col space-y-2 mt-auto mb-8">
+              <div className="flex flex-col items-center space-y-2 mt-8">
                 <p className="text-black text-lg font-bold">010 230 6824</p>
                 <p className="text-black text-lg">info@gardenluxveranda.nl</p>
               </div>
 
               {/* Full-width Button */}
-              <Link href="/contact">
-                <button className="w-3/4 mx-auto bg-green-500 text-white py-3 rounded-md font-bold text-lg">
+              <Link href="/contact" className="w-3/4">
+                <button className="w-full bg-green-500 text-white py-3 rounded-md font-bold text-lg">
                   Offerte aanvragen
                 </button>
               </Link>
             </div>
-
-            {/* Fade out effect at the bottom */}
-            <div className="absolute bottom-0 w-full h-24 bg-gradient-to-t from-gray-300 to-transparent"></div>
           </div>
         </div>
       )}
